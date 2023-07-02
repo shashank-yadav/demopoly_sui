@@ -1,0 +1,395 @@
+{
+  "version": "0.1.0",
+  "name": "voting",
+  "instructions": [
+    {
+      "name": "createPollData",
+      "accounts": [
+        {
+          "name": "pollDataAccount",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pollId",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "updatePollData",
+      "accounts": [
+        {
+          "name": "pollDataAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "pollId",
+          "type": "publicKey"
+        }
+      ]
+    },
+    {
+      "name": "createVoter",
+      "accounts": [
+        {
+          "name": "voterAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createPoll",
+      "accounts": [
+        {
+          "name": "pollDataAccount",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "pollAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "votingDeadline",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "revealPoll",
+      "accounts": [
+        {
+          "name": "pollAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "result",
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "cancelPoll",
+      "accounts": [
+        {
+          "name": "pollAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createVote",
+      "accounts": [
+        {
+          "name": "voterAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "pollAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "voteAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "vote",
+          "type": "string"
+        },
+        {
+          "name": "tokensStaked",
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "updateVote",
+      "accounts": [
+        {
+          "name": "voteAccount",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "vote",
+          "type": "string"
+        },
+        {
+          "name": "tokensStaked",
+          "type": "u32"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "IndividualVote",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pollId",
+            "type": "publicKey"
+          },
+          {
+            "name": "voterId",
+            "type": "publicKey"
+          },
+          {
+            "name": "vote",
+            "type": "string"
+          },
+          {
+            "name": "tokensStaked",
+            "type": "u32"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PollDataInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pollId",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "PollInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "pollId",
+            "type": "publicKey"
+          },
+          {
+            "name": "status",
+            "type": {
+              "defined": "PollStatus"
+            }
+          },
+          {
+            "name": "votingDeadline",
+            "type": "u32"
+          },
+          {
+            "name": "result",
+            "type": {
+              "option": "u8"
+            }
+          },
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "VoterInfo",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "voterId",
+            "type": "publicKey"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "PollStatus",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Started"
+          },
+          {
+            "name": "Finished"
+          },
+          {
+            "name": "Cancelled"
+          }
+        ]
+      }
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "CannotGetBump",
+      "msg": "Cannot get bump"
+    },
+    {
+      "code": 6001,
+      "name": "PollAlreadyFinished",
+      "msg": "Poll already finished"
+    },
+    {
+      "code": 6002,
+      "name": "PollAlreadyCancelled",
+      "msg": "Poll already cancelled"
+    },
+    {
+      "code": 6003,
+      "name": "VoteTooLong",
+      "msg": "Vote too long"
+    }
+  ],
+  "metadata": {
+    "address": "8xgpGQtTaPPppnnf6iDkUP1zzDsqXfdZgoMG7jUSEwov"
+  }
+}

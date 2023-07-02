@@ -1,0 +1,5 @@
+DB_NAME = "staging"
+USERS = "users"
+DAO_POLLS = "daopolls"
+DAO_VOTES = "daovotes"
+APP_INFO = "appinfo"

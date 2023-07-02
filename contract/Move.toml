@@ -1,0 +1,9 @@
+[package]
+name = "dao_voting"
+version = "0.0.2"
+
+[dependencies]
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/devnet" }
+
+[addresses]
+dao_voting = "0x0"
