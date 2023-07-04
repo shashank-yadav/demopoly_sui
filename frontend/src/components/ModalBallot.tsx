@@ -44,6 +44,7 @@ import { VoteState } from "../models/BallotState";
 
 import { UserVote } from "../models/UserVote";
 import { packageAddress } from "../Constants";
+import { getEncryptedVote } from "../encryption/encryption";
 
 const ModalBallot: React.FC<{
   poll: PollCreateBaseModel;
@@ -88,14 +89,16 @@ const ModalBallot: React.FC<{
   ) {
     try {
       const tx = new TransactionBlock();
+      const vote_number = vote > 0 ? 0 : 1;
+      const encryptedVote = getEncryptedVote(vote_number, poll.public_key);  
       tx.moveCall({
         target: `${packageAddress}::dao_polls::create_vote` as any,
-        arguments: [tx.pure(sel.poll_id), tx.pure(sel.option)],
+        arguments: [tx.pure(sel.poll_id), tx.pure(encryptedVote)],
       });
       const resData = await wallet.signAndExecuteTransactionBlock({
         transactionBlock: tx,
       }).then((response: any) => {
-        castVote(bearer, sel.poll_id, sel.option)
+        castVote(bearer, sel.poll_id, encryptedVote)
         .then((response: any) => {
           setVoteState(sel);
           const updatedUserVotes = [...userVotes!, sel];
